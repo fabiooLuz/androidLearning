@@ -15,10 +15,10 @@ import java.util.List;
 
 public class Adapter extends RecyclerView.Adapter <Adapter.MyViewHolder>{
 
-    private List<Disciplina> listaDisciplina;
+    private List<Disciplina> listaDisciplinas;
 
     public Adapter( List<Disciplina> lista){
-        this.listaDisciplina = lista;
+        this.listaDisciplinas = lista;
     }
 
     @NonNull
@@ -28,14 +28,17 @@ public class Adapter extends RecyclerView.Adapter <Adapter.MyViewHolder>{
         // método para criar a visualização dos itens da lista
         View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_lista, parent, false);
 
+
+
         return new MyViewHolder(itemLista);
+
     }
 
     @Override
     public void onBindViewHolder(@NonNull @org.jetbrains.annotations.NotNull Adapter.MyViewHolder holder, int position) {
         // Método para exibir os itens da lista
-        Disciplina d = listaDisciplina.get( position);
-        holder.tvDisciplina.setText( d.getNomeDisciplina() );
+        Disciplina d = listaDisciplinas.get( position);
+        holder.tvDisciplina.setText(d.getNomeDisciplina());
         holder.tvProfessor.setText(d.getProfessor());
         holder.tvDiasemana.setText(d.getDiaSemana());
         holder.tvSala.setText(d.getSala());
@@ -45,8 +48,7 @@ public class Adapter extends RecyclerView.Adapter <Adapter.MyViewHolder>{
     @Override
     public int getItemCount() {
         //Quantidade de itens a ser exibidos
-
-        return 15;
+        return listaDisciplinas.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

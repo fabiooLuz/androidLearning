@@ -1,14 +1,20 @@
 package com.fabio.luz.apprecyclerview.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.fabio.luz.apprecyclerview.R;
 import com.fabio.luz.apprecyclerview.adapter.Adapter;
 import com.fabio.luz.apprecyclerview.model.Disciplina;
+import com.fabio.luz.apprecyclerview.util.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +32,55 @@ public class MainActivity extends AppCompatActivity {
         rvRecyclerView = findViewById(R.id.rvRecyclerView);
         //Configurar o adapter
 
+        //Listagem  de Disciplinas
+        this.criarDisciplinas();
+
+        //Configurar Adapter
         Adapter adapter = new Adapter( disciplinas );
 
         //Configurar o recyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         rvRecyclerView.setLayoutManager( layoutManager);
         rvRecyclerView.setHasFixedSize( true );
+        //inserindo uma linha entre cada item
+        rvRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL ));
 
         rvRecyclerView.setAdapter( adapter );
+
+        //Evento de click
+
+        rvRecyclerView.addOnItemTouchListener(
+               new RecyclerItemClickListener(
+                       getApplicationContext(),
+                       rvRecyclerView,
+                       new RecyclerItemClickListener.OnItemClickListener() {
+                           @Override
+                           public void onItemClick(View view, int position) {
+                               Disciplina d = disciplinas.get(position);
+
+                               //click simples: Toast exibindo dia e sala
+                               Toast.makeText(MainActivity.this, d.getDiaSemana() + " - " + d.getSala(), Toast.LENGTH_SHORT).show();
+
+                           }
+
+                           @Override
+                           public void onLongItemClick(View view, int position) {
+                               Disciplina d = disciplinas.get(position);
+
+                               //Click longo : toast exibindo Disciplina e professor
+                               Toast.makeText(MainActivity.this, d.getNomeDisciplina() + " - " + d.getProfessor(), Toast.LENGTH_LONG).show();
+
+
+                           }
+
+                           @Override
+                           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                           }
+                       }
+               )
+
+        );
 
     }
 
